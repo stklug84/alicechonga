@@ -1,0 +1,29 @@
+<footer class="site-footer">
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <h4>Alice Chonga</h4>
+        <p>International HR Strategist<br>Nairobi, Kenya</p>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul class="contact-list">
+          <li><a href="mailto:chongaalice0@gmail.com">chongaalice0@gmail.com</a></li>
+          <li><a href="https://linkedin.com/in/alice-chonga" target="_blank">LinkedIn Profile</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p>Subscribe for HR insights, policy updates, and ethical workplace strategies.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address">
+          <button type="submit" class="btn btn-primary">Join the List</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {{ "now" | date: "%Y" }} Alice Chonga. All rights reserved.</p>
+      <p><a href="{{ site.url }}">{{ site.url | remove_first: "https://" }}</a></p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,46 @@
+# _config.yml
+
+---
+title: "Alice Chonga - International HR Strategist"
+description: |
+  "Global HR for a Changing World. Building inclusive, ethical, and future-ready
+  HR systems across cultures and continents."
+author: "Alice Chonga"
+url: "https://alicechonga.com"
+
+# Navigation - Used for the header menu
+# The order here determines the order in the navigation bar
+navigation:
+  - title: Home
+    url: /
+  - title: About
+    url: /about/
+  - title: Services
+    url: /services/
+  - title: Speaking
+    url: /speaking/
+  - title: Resources
+    url: /resources/
+  - title: Contact
+    url: /contact/
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically excluded.
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
