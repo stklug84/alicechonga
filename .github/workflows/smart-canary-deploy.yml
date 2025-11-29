@@ -106,14 +106,11 @@ jobs:
         if: hashFiles('canary-source/Gemfile') != ''
         working-directory: ./canary-source
         run: |
-          # 1. Clean old canary folder from _site if it exists (from cache)
+          # Clean old canary folder from _site if it exists (from cache)
           rm -rf ../_site/canary
 
-          # 2. Calculate Repo Name for baseurl (e.g., /my-repo/canary)
-          REPO_NAME=$(echo "${{ github.repository }}" | awk -F / '{print $2}')
-
-          # 3. Build into _site/canary
-          bundle exec jekyll build --destination ../_site/canary --baseurl "/$REPO_NAME/canary"
+          # Build into _site/canary
+          bundle exec jekyll build --destination ../_site/canary --baseurl "/canary"
 
       # --- 7. UPLOAD ---
       - name: Upload artifact
