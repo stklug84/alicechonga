@@ -224,3 +224,19 @@ function createSnowfall(n){
         document.body.appendChild(f);
     }
 }
+
+// --- CANARY DETECTION ---
+(function checkCanaryMode() {
+    // Check if the URL path contains '/canary/'
+    if (window.location.pathname.includes('/canary/')) {
+        console.log("🐤 Canary Build Detected");
+
+        const badge = document.createElement('div');
+        badge.className = 'canary-badge';
+        badge.innerHTML = '🐤 Canary Build';
+        document.body.appendChild(badge);
+
+        // Optional: You can also visually alter the page to make it obvious
+        // document.body.style.borderTop = "5px solid #ff9800";
+    }
+})();
