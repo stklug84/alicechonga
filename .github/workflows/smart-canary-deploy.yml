@@ -106,7 +106,7 @@ jobs:
         run: |
           # 1. Define Badge HTML with Link Back to Production
           # We use flexbox for layout and an absolute link to "/" (Root Domain)
-          BADGE_HTML='<div style="position:fixed;bottom:20px;right:20px;z-index:9999;background:#FFC107;color:#333;padding:12px;font-family:sans-serif;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);border:1px solid #e0a800;text-align:center;min-width:120px;"><div style="font-weight:bold;margin-bottom:6px;font-size:14px;">🐣 Canary Build</div><a href="/" style="display:block;background:#fff;color:#005f73;text-decoration:none;font-size:12px;padding:4px 8px;border-radius:4px;font-weight:bold;">&larr; Back to Live</a></div>'
+          BADGE_HTML='<div style="position:fixed;bottom:20px;right:20px;z-index:9999;background:#FFC107;color:#333;padding:12px;font-family:sans-serif;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);border:1px solid #e0a800;text-align:center;min-width:120px;"><div style="font-weight:bold;margin-bottom:6px;font-size:14px;">🐣 Canary Build</div><a href="/" style="display:block;background:#fff;color:#005f73;text-decoration:none;font-size:12px;padding:4px 8px;border-radius:4px;font-weight:bold;">Back to Live</a></div>'
 
           # 2. Inject Badge before </body> in default layout
           # This modifies the file in the runner only, not in your repo
