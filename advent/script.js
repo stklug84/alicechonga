@@ -7,16 +7,28 @@ const modalBody = document.getElementById('modal-body');
 const modalActions = document.getElementById('modal-actions');
 const modalClose = document.getElementById('modal-close');
 
-// --- DATE CHECKING CONFIGURATION ---
+// --- ⚙️ SETTINGS ---
 
-// 1. Real Date
-const now = new Date();
+// Set this to TRUE to test the calendar as if it were December 15th
+// Set this to FALSE for the real calendar (locks everything until Dec 1st)
+const TEST_MODE = true;
 
-// 2. TEST DATE (Uncomment the line below to test "as if" it were Dec 5th)
-const now = new Date('2025-12-05T10:00:00');
+// --- DATE LOGIC ---
+let now = new Date(); // Get user's actual time
+
+if (TEST_MODE) {
+    // Fake the date to December 15th so you can see days 1-15 open
+    now = new Date('2025-12-15T10:00:00');
+    console.log("⚠️ TEST MODE ACTIVE: Simulating date as " + now);
+}
 
 const currentMonth = now.getMonth(); // 0-11 (11 is December)
 const currentDay = now.getDate();    // 1-31
+
+console.log("Current Date used for locking:", now);
+
+// Utility: Pad numbers (1 -> 01)
+const pad = n => String(n).padStart(2,'0');
 
 // Load days metadata
 let daysData = {};
@@ -26,6 +38,8 @@ fetch('data/days.json')
     .catch(err => { console.warn('Error loading days.json', err); buildCalendar(); });
 
 function buildCalendar(){
+    calendar.innerHTML = ''; // Clear existing if any
+
     for(let i=1;i<=CALENDAR_DAYS;i++){
         const dayNum = pad(i);
         const dayEl = document.createElement('button');
@@ -34,34 +48,34 @@ function buildCalendar(){
         dayEl.setAttribute('aria-label', 'Day ' + dayNum);
         dayEl.innerHTML = `<span class="num">${i}</span>`;
 
-        // Mark opened if stored in browser (unless it's locked now)
+        // Check if previously opened
         const isOpened = localStorage.getItem('lisa-day-' + dayNum) === '1';
 
-        // --- STRICT LOCKING LOGIC ---
+        // --- LOCKING LOGIC ---
         let isLocked = false;
 
-        if (currentMonth < 11) {
-            // It is BEFORE December (e.g., November). Lock Everything.
+        // 1. If it is NOT December yet (and not a future year), lock everything
+        if (now.getFullYear() === 2025 && currentMonth < 11) {
             isLocked = true;
-        } else if (currentMonth === 11) {
-            // It is December. Lock days in the future.
+        }
+        // 2. If it IS December, lock days in the future
+        else if (currentMonth === 11) {
             if (i > currentDay) {
                 isLocked = true;
             }
         }
-        // If currentMonth > 11 (January next year), everything remains unlocked.
 
+        // Apply Lock or Click Events
         if(isLocked){
             dayEl.classList.add('locked');
-            dayEl.setAttribute('title', 'Available on December ' + i);
-            dayEl.disabled = true;
+            dayEl.setAttribute('title', `Available on December ${i}`);
+            // We do NOT add the click listener, so it's unclickable
         } else {
-            // Only add click listener and open styles if NOT locked
             if(isOpened) dayEl.classList.add('opened');
             dayEl.addEventListener('click', onDayClick);
         }
 
-        // Add badge if exists (and maybe hide it if locked? Up to you. Currently shows always.)
+        // Add Badge (Optional: Only show badge if unlocked? I'll leave it visible for anticipation)
         if(daysData[dayNum] && daysData[dayNum].badge){
             const b = document.createElement('span');
             b.className='badge';
@@ -72,12 +86,9 @@ function buildCalendar(){
         calendar.appendChild(dayEl);
     }
 
-    // Start continuous snowfall
-    createSnowfall(30);
+    // Start Snow
+    createSnowfall(40);
 }
-
-// Utility
-const pad = n => String(n).padStart(2,'0');
 
 function onDayClick(e){
     const day = e.currentTarget.getAttribute('data-day');
@@ -89,16 +100,16 @@ function openDay(day){
 
     // Mark as opened
     localStorage.setItem('lisa-day-' + day, '1');
-    const btn = document.querySelector('.day[data-day=\"'+day+'\"]');
+    const btn = document.querySelector(`.day[data-day="${day}"]`);
     if(btn) btn.classList.add('opened');
 
-    // Populate Modal
+    // Show Modal
     modal.setAttribute('aria-hidden','false');
     modalTitle.textContent = meta.title || ('Day ' + day);
     modalBody.innerHTML = '';
     modalActions.innerHTML = '';
 
-    // 1. Text
+    // 1. Text Message
     if(meta.text){
         const p = document.createElement('p');
         p.textContent = meta.text;
@@ -118,7 +129,7 @@ function openDay(day){
         if(isDrive) {
             linkBtn.className = 'drive-button';
             linkBtn.innerHTML = `
-                <div style="background:#fff; color:#222; padding:12px 20px; border-radius:8px; font-weight:bold; margin-top:15px; text-decoration:none; display:inline-block;">
+                <div style="background:#fff; color:#222; padding:12px 24px; border-radius:8px; font-weight:bold; margin-top:15px; text-decoration:none; display:inline-block; border: 2px solid #ffd54f;">
                     🎁 Unwrap on Google Drive
                 </div>`;
         } else {
@@ -127,6 +138,7 @@ function openDay(day){
             linkBtn.style.marginTop='15px';
             linkBtn.style.color='#ffd54f';
             linkBtn.style.fontWeight='bold';
+            linkBtn.style.fontSize='1.1rem';
         }
         modalActions.appendChild(linkBtn);
 
@@ -135,29 +147,34 @@ function openDay(day){
             hint.textContent = "(Sign in to Google to view)";
             hint.style.fontSize = "0.8rem";
             hint.style.color = "#aaa";
-            hint.style.marginTop = "5px";
+            hint.style.marginTop = "6px";
             modalActions.appendChild(hint);
         }
     }
 }
 
+// Close Modal Logic
 modalClose.addEventListener('click', ()=> { modal.setAttribute('aria-hidden','true'); });
 modal.addEventListener('click', (ev) => {
     if(ev.target === modal) modal.setAttribute('aria-hidden','true');
 });
 
-// Continuous Snowfall Generator
+// Continuous Snowfall
 function createSnowfall(n){
+    // Remove existing snow to prevent duplicates if function runs twice
+    const existing = document.querySelectorAll('.snowflake');
+    existing.forEach(e => e.remove());
+
     for(let i=0;i<n;i++){
         const f = document.createElement('div');
         f.className='snowflake';
-        const size = 5 + Math.random() * 7;
+        const size = 5 + Math.random() * 8;
         f.style.width = size + 'px';
         f.style.height = size + 'px';
         f.style.left = Math.random() * 100 + 'vw';
         f.style.animationDuration = (5 + Math.random() * 10) + 's';
-        f.style.animationDelay = (Math.random() * 5) + 's';
-        f.style.opacity = 0.4 + Math.random() * 0.6;
+        f.style.animationDelay = (Math.random() * 5) + 's'; // Stagger start times
+        f.style.opacity = 0.3 + Math.random() * 0.7;
         document.body.appendChild(f);
     }
 }
