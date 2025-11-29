@@ -87,29 +87,36 @@ jobs:
           cp main-source/data/days.json _site/data/days.json
 
       # --- 6. BUILD CANARY (SUBDIRECTORY) ---
-      # We always rebuild canary to ensure it works.
       - name: Checkout Canary Branch
         uses: actions/checkout@v4
         with:
           ref: canary
           path: canary-source
           clean: false
-        continue-on-error: true # Don't fail if canary branch doesn't exist yet
+        continue-on-error: true
 
       - name: Install Canary Dependencies
-        # Only run if directory exists
         if: hashFiles('canary-source/Gemfile') != ''
         working-directory: ./canary-source
         run: bundle install
 
-      - name: Build Canary Site
+      - name: Build Canary Site & Inject Badge
         if: hashFiles('canary-source/Gemfile') != ''
         working-directory: ./canary-source
         run: |
-          # Clean old canary folder from _site if it exists (from cache)
+          # 1. Define Badge HTML with Link Back to Production
+          # We use flexbox for layout and an absolute link to "/" (Root Domain)
+          BADGE_HTML='<div style="position:fixed;bottom:20px;right:20px;z-index:9999;background:#FFC107;color:#333;padding:12px;font-family:sans-serif;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);border:1px solid #e0a800;text-align:center;min-width:120px;"><div style="font-weight:bold;margin-bottom:6px;font-size:14px;">🐣 Canary Build</div><a href="/" style="display:block;background:#fff;color:#005f73;text-decoration:none;font-size:12px;padding:4px 8px;border-radius:4px;font-weight:bold;">Back to Live</a></div>'
+
+          # 2. Inject Badge before </body> in default layout
+          # This modifies the file in the runner only, not in your repo
+          sed -i "s|</body>|$BADGE_HTML</body>|" _layouts/default.html
+
+          # 3. Clean old canary folder from _site
           rm -rf ../_site/canary
 
-          # Build into _site/canary
+          # 4. Build into _site/canary
+          # For Custom Domain (CNAME): baseurl is just the subdirectory "/canary"
           bundle exec jekyll build --destination ../_site/canary --baseurl "/canary"
 
       # --- 7. UPLOAD ---
