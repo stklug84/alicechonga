@@ -54,7 +54,7 @@ function buildCalendar(){
         dayEl.innerHTML = `<span class="num">${i}</span>`;
 
         // Check if previously opened (in LocalStorage)
-        const isOpened = localStorage.getItem('lisa-day-' + dayNum) === '1';
+        const isOpened = localStorage.getItem('lysa-day-' + dayNum) === '1';
 
         // --- LOCKING LOGIC ---
         let isLocked = false;
@@ -114,7 +114,7 @@ function openDay(day){
     const meta = daysData[day] || {};
 
     // Mark as opened
-    localStorage.setItem('lisa-day-' + day, '1');
+    localStorage.setItem('lysa-day-' + day, '1');
     const btn = document.querySelector(`.day[data-day="${day}"]`);
     if(btn) btn.classList.add('opened');
 
