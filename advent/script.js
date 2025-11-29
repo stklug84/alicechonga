@@ -11,7 +11,7 @@ const modalClose = document.getElementById('modal-close');
 
 // Set this to TRUE to test the calendar as if it were December 15th
 // Set this to FALSE for the real calendar (locks everything until Dec 1st)
-const TEST_MODE = true;
+const TEST_MODE = false;
 
 // --- DATE LOGIC ---
 let now = new Date(); // Get user's actual time
