@@ -34,6 +34,8 @@ jobs:
           working-directory: main-source
           filters: |
             core:
+              - 'Gemfile'
+              - 'Gemfile.lock'
               - '_config.yml'
               - '*.html'
               - '*.js'
