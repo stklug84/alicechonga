@@ -7,25 +7,30 @@ const modalBody = document.getElementById('modal-body');
 const modalActions = document.getElementById('modal-actions');
 const modalClose = document.getElementById('modal-close');
 
-// --- ⚙️ SETTINGS ---
+// --- 🐤 CANARY & TEST MODE LOGIC ---
 
-// Set this to TRUE to test the calendar as if it were December 15th
-// Set this to FALSE for the real calendar (locks everything until Dec 1st)
-const TEST_MODE = false;
+// 1. Detect if we are in the Canary build based on URL
+const IS_CANARY = window.location.pathname.includes('/canary/');
 
-// --- DATE LOGIC ---
-let now = new Date(); // Get user's actual time
+// 2. Define "Now"
+let now = new Date();
 
-if (TEST_MODE) {
-    // Fake the date to December 15th so you can see days 1-15 open
-    now = new Date('2025-12-15T10:00:00');
-    console.log("⚠️ TEST MODE ACTIVE: Simulating date as " + now);
+if (IS_CANARY) {
+    console.log("🐤 Canary Build Detected: Simulating date as Dec 25th to unlock all tiles.");
+    // Force date to Dec 25th so ALL days are unlocked for testing
+    now = new Date('2025-12-25T10:00:00');
+
+    // Add the visual badge immediately
+    const badge = document.createElement('div');
+    badge.className = 'canary-badge'; // Ensure this class is in your CSS
+    badge.innerHTML = '🐤 Canary Test Mode';
+    document.body.appendChild(badge);
 }
 
 const currentMonth = now.getMonth(); // 0-11 (11 is December)
 const currentDay = now.getDate();    // 1-31
 
-console.log("Current Date used for locking:", now);
+// --- END CONFIGURATION ---
 
 // Utility: Pad numbers (1 -> 01)
 const pad = n => String(n).padStart(2,'0');
@@ -38,7 +43,7 @@ fetch('data/days.json')
     .catch(err => { console.warn('Error loading days.json', err); buildCalendar(); });
 
 function buildCalendar(){
-    calendar.innerHTML = ''; // Clear existing if any
+    calendar.innerHTML = ''; // Clear existing
 
     for(let i=1;i<=CALENDAR_DAYS;i++){
         const dayNum = pad(i);
@@ -48,7 +53,7 @@ function buildCalendar(){
         dayEl.setAttribute('aria-label', 'Day ' + dayNum);
         dayEl.innerHTML = `<span class="num">${i}</span>`;
 
-        // Check if previously opened
+        // Check if previously opened (in LocalStorage)
         const isOpened = localStorage.getItem('lisa-day-' + dayNum) === '1';
 
         // --- LOCKING LOGIC ---
@@ -69,13 +74,13 @@ function buildCalendar(){
         if(isLocked){
             dayEl.classList.add('locked');
             dayEl.setAttribute('title', `Available on December ${i}`);
-            // We do NOT add the click listener, so it's unclickable
+            dayEl.disabled = true;
         } else {
             if(isOpened) dayEl.classList.add('opened');
             dayEl.addEventListener('click', onDayClick);
         }
 
-        // Add Badge (Optional: Only show badge if unlocked? I'll leave it visible for anticipation)
+        // Badge logic (Always show badge, or hide if locked? Keeping visible for now)
         if(daysData[dayNum] && daysData[dayNum].badge){
             const b = document.createElement('span');
             b.className='badge';
@@ -98,10 +103,8 @@ function onDayClick(e){
 // Helper: Convert standard Drive link to "Direct View" link
 function getDirectDriveLink(url) {
     if (!url) return url;
-    // Regex to find the File ID in a standard Drive URL
     const match = url.match(/\/d\/(.+?)\//);
     if (match && match[1]) {
-        // Return the "Export/View" format which bypasses the Drive UI
         return `https://drive.google.com/uc?export=view&id=${match[1]}`;
     }
     return url;
@@ -110,7 +113,7 @@ function getDirectDriveLink(url) {
 function openDay(day){
     const meta = daysData[day] || {};
 
-    // Mark as opened logic...
+    // Mark as opened
     localStorage.setItem('lisa-day-' + day, '1');
     const btn = document.querySelector(`.day[data-day="${day}"]`);
     if(btn) btn.classList.add('opened');
@@ -130,12 +133,11 @@ function openDay(day){
         modalBody.appendChild(p);
     }
 
-    // 2. Google Drive "Direct" Experience
+    // 2. Google Drive / External Link
     if(meta.link){
         const isDrive = meta.link.includes('drive.google.com');
         const linkBtn = document.createElement('a');
 
-        // Optimize the URL if it is Google Drive
         if(isDrive) {
             linkBtn.href = getDirectDriveLink(meta.link);
         } else {
@@ -147,7 +149,6 @@ function openDay(day){
 
         if(isDrive) {
             linkBtn.className = 'drive-button';
-            // Use a visual style that implies "Media" rather than "Link"
             linkBtn.innerHTML = `
                 <div style="
                     background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05, #EA4335);
@@ -171,13 +172,9 @@ function openDay(day){
                         <span>View Your Gift</span>
                     </div>
                 </div>`;
-
-            // Hover effect via JS since inline styles are tricky
             linkBtn.onmouseover = () => linkBtn.querySelector('div').style.transform = "scale(1.02)";
             linkBtn.onmouseout = () => linkBtn.querySelector('div').style.transform = "scale(1)";
-
         } else {
-            // Standard Link Styling
             linkBtn.textContent = meta.linkText || 'Open Link';
             linkBtn.style.display='inline-block';
             linkBtn.style.marginTop='15px';
@@ -189,7 +186,6 @@ function openDay(day){
 
         if(isDrive){
             const hint = document.createElement('p');
-            // Explain that it opens in full screen
             hint.textContent = "(Opens media in new tab)";
             hint.style.fontSize = "0.8rem";
             hint.style.color = "#aaa";
@@ -199,7 +195,6 @@ function openDay(day){
     }
 }
 
-// Close Modal Logic
 modalClose.addEventListener('click', ()=> { modal.setAttribute('aria-hidden','true'); });
 modal.addEventListener('click', (ev) => {
     if(ev.target === modal) modal.setAttribute('aria-hidden','true');
@@ -207,7 +202,6 @@ modal.addEventListener('click', (ev) => {
 
 // Continuous Snowfall
 function createSnowfall(n){
-    // Remove existing snow to prevent duplicates if function runs twice
     const existing = document.querySelectorAll('.snowflake');
     existing.forEach(e => e.remove());
 
@@ -219,24 +213,8 @@ function createSnowfall(n){
         f.style.height = size + 'px';
         f.style.left = Math.random() * 100 + 'vw';
         f.style.animationDuration = (5 + Math.random() * 10) + 's';
-        f.style.animationDelay = (Math.random() * 5) + 's'; // Stagger start times
+        f.style.animationDelay = (Math.random() * 5) + 's';
         f.style.opacity = 0.3 + Math.random() * 0.7;
         document.body.appendChild(f);
     }
 }
-
-// --- CANARY DETECTION ---
-(function checkCanaryMode() {
-    // Check if the URL path contains '/canary/'
-    if (window.location.pathname.includes('/canary/')) {
-        console.log("🐤 Canary Build Detected");
-
-        const badge = document.createElement('div');
-        badge.className = 'canary-badge';
-        badge.innerHTML = '🐤 Canary Build';
-        document.body.appendChild(badge);
-
-        // Optional: You can also visually alter the page to make it obvious
-        // document.body.style.borderTop = "5px solid #ff9800";
-    }
-})();
