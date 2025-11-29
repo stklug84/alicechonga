@@ -1,8 +1,8 @@
-name: Smart Deploy (Skip Build on JSON)
+name: Smart Canary Deploy
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "canary"]
   workflow_dispatch:
 
 permissions:
@@ -18,17 +18,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      # --- 1. SETUP & CHECKOUT MAIN ---
+      - name: Checkout Main (Production)
         uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-source
 
-      # 1. DETECT CHANGES
-      # We check if the changes are limited to data/assets or if core code was touched.
-      - name: Check for file changes
+      # --- 2. DETECT CHANGES (Only matters if we pushed to Main) ---
+      - name: Check for core changes in Main
         uses: dorny/paths-filter@v2
         id: changes
         with:
+          # We must point the filter to the main-source directory
+          working-directory: main-source
           filters: |
-            # Files that DO require a Jekyll Rebuild
             core:
               - '_config.yml'
               - '*.html'
@@ -36,52 +40,80 @@ jobs:
               - '*.css'
               - '_layouts/**'
               - '_includes/**'
+              - 'days/**'
 
-      # 2. RESTORE CACHE
-      # We try to download the '_site' folder from the previous run.
+      # --- 3. RESTORE CACHE ---
+      # Try to get the _site folder from the last successful MAIN run
       - name: Restore _site cache
         id: cache-site
         uses: actions/cache@v4
         with:
           path: _site
-          # We use a rolling key. We always want the most recent cache available.
-          key: jekyll-site-${{ github.run_id }}
+          # Key is specific to the Main branch commit or fallback to latest available
+          key: jekyll-site-main-${{ github.run_id }}
           restore-keys: |
-            jekyll-site-
+            jekyll-site-main-
 
       - name: Setup Ruby
-        # Only setup Ruby if we actually need to build (Core changes OR Cache Miss)
-        if: steps.changes.outputs.core == 'true' || steps.cache-site.outputs.cache-hit != 'true'
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
           bundler-cache: true
+          working-directory: main-source
 
-      - name: Install dependencies
-        if: steps.changes.outputs.core == 'true' || steps.cache-site.outputs.cache-hit != 'true'
+      # --- 4. BUILD PRODUCTION (ROOT) ---
+      # Logic: Build IF we pushed to main AND core files changed OR if we have no cache.
+      - name: Install Main Dependencies
+        working-directory: ./main-source
         run: bundle install
 
-      # 3. CONDITIONAL BUILD
-      # Run Jekyll Build ONLY if core files changed OR if we failed to restore the cache
-      - name: Build with Jekyll
-        if: steps.changes.outputs.core == 'true' || steps.cache-site.outputs.cache-hit != 'true'
-        run: bundle exec jekyll build --destination ./_site
+      - name: Build Main Site
+        # If cache missed, OR if we are on main branch and core files changed: BUILD.
+        if: steps.cache-site.outputs.cache-hit != 'true' || (github.ref == 'refs/heads/main' && steps.changes.outputs.core == 'true')
+        working-directory: ./main-source
+        run: bundle exec jekyll build --destination ../_site
 
-      # 4. FAST SWAP
-      # If we skipped the build, we just copy the new JSON/Assets into the old _site folder
+      # --- 5. FAST UPDATE (No Build) ---
+      # Logic: If we skipped the build above, we must copy the new JSON to the cached site.
       - name: Update Data in Cached Site
-        if: steps.changes.outputs.core == 'false' && steps.cache-site.outputs.cache-hit == 'true'
+        # If we have a cache hit AND (we are not on main OR core didn't change)
+        if: steps.cache-site.outputs.cache-hit == 'true' && (github.ref != 'refs/heads/main' || steps.changes.outputs.core == 'false')
         run: |
-          echo "⚡ Skipping Jekyll Build. Updating data files only."
-          # Ensure directories exist
+          echo "⚡ Skipping Main Build. Updating data files only."
           mkdir -p _site/data
-          mkdir -p _site/assets
+          # Copy JSON from the freshly checked out main-source to the cached _site
+          cp main-source/data/days.json _site/data/days.json
 
-          # Copy the new files over the old cached ones
-          cp data/days.json _site/data/days.json
-          # If you have assets (images), copy them too
-          # cp -r assets/* _site/assets/ || true
+      # --- 6. BUILD CANARY (SUBDIRECTORY) ---
+      # We always rebuild canary to ensure it works.
+      - name: Checkout Canary Branch
+        uses: actions/checkout@v4
+        with:
+          ref: canary
+          path: canary-source
+          clean: false
+        continue-on-error: true # Don't fail if canary branch doesn't exist yet
 
+      - name: Install Canary Dependencies
+        # Only run if directory exists
+        if: hashFiles('canary-source/Gemfile') != ''
+        working-directory: ./canary-source
+        run: bundle install
+
+      - name: Build Canary Site
+        if: hashFiles('canary-source/Gemfile') != ''
+        working-directory: ./canary-source
+        run: |
+          # 1. Clean old canary folder from _site if it exists (from cache)
+          rm -rf ../_site/canary
+
+          # 2. Calculate Repo Name for baseurl (e.g., /my-repo/canary)
+          REPO_NAME=$(echo "${{ github.repository }}" | awk -F / '{print $2}')
+
+          # 3. Build into _site/canary
+          bundle exec jekyll build --destination ../_site/canary --baseurl "/$REPO_NAME/canary"
+
+      # --- 7. UPLOAD ---
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
