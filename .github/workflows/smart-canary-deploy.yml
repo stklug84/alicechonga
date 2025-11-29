@@ -27,7 +27,7 @@ jobs:
 
       # --- 2. DETECT CHANGES (Only matters if we pushed to Main) ---
       - name: Check for core changes in Main
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         id: changes
         with:
           # We must point the filter to the main-source directory

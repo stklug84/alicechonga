@@ -95,15 +95,27 @@ function onDayClick(e){
     openDay(day);
 }
 
+// Helper: Convert standard Drive link to "Direct View" link
+function getDirectDriveLink(url) {
+    if (!url) return url;
+    // Regex to find the File ID in a standard Drive URL
+    const match = url.match(/\/d\/(.+?)\//);
+    if (match && match[1]) {
+        // Return the "Export/View" format which bypasses the Drive UI
+        return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    }
+    return url;
+}
+
 function openDay(day){
     const meta = daysData[day] || {};
 
-    // Mark as opened
+    // Mark as opened logic...
     localStorage.setItem('lisa-day-' + day, '1');
     const btn = document.querySelector(`.day[data-day="${day}"]`);
     if(btn) btn.classList.add('opened');
 
-    // Show Modal
+    // Populate Modal
     modal.setAttribute('aria-hidden','false');
     modalTitle.textContent = meta.title || ('Day ' + day);
     modalBody.innerHTML = '';
@@ -118,21 +130,54 @@ function openDay(day){
         modalBody.appendChild(p);
     }
 
-    // 2. Google Drive / External Link
+    // 2. Google Drive "Direct" Experience
     if(meta.link){
         const isDrive = meta.link.includes('drive.google.com');
         const linkBtn = document.createElement('a');
-        linkBtn.href = meta.link;
+
+        // Optimize the URL if it is Google Drive
+        if(isDrive) {
+            linkBtn.href = getDirectDriveLink(meta.link);
+        } else {
+            linkBtn.href = meta.link;
+        }
+
         linkBtn.target = '_blank';
         linkBtn.rel = 'noopener';
 
         if(isDrive) {
             linkBtn.className = 'drive-button';
+            // Use a visual style that implies "Media" rather than "Link"
             linkBtn.innerHTML = `
-                <div style="background:#fff; color:#222; padding:12px 24px; border-radius:8px; font-weight:bold; margin-top:15px; text-decoration:none; display:inline-block; border: 2px solid #ffd54f;">
-                    🎁 Unwrap on Google Drive
+                <div style="
+                    background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05, #EA4335);
+                    padding: 2px;
+                    border-radius: 8px;
+                    display: inline-block;
+                    margin-top: 15px;
+                    transition: transform 0.2s;
+                ">
+                    <div style="
+                        background: #0b1220;
+                        color: #fff;
+                        padding: 12px 24px;
+                        border-radius: 6px;
+                        font-weight: bold;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    ">
+                        <span>🎁</span>
+                        <span>View Your Gift</span>
+                    </div>
                 </div>`;
+
+            // Hover effect via JS since inline styles are tricky
+            linkBtn.onmouseover = () => linkBtn.querySelector('div').style.transform = "scale(1.02)";
+            linkBtn.onmouseout = () => linkBtn.querySelector('div').style.transform = "scale(1)";
+
         } else {
+            // Standard Link Styling
             linkBtn.textContent = meta.linkText || 'Open Link';
             linkBtn.style.display='inline-block';
             linkBtn.style.marginTop='15px';
@@ -144,7 +189,8 @@ function openDay(day){
 
         if(isDrive){
             const hint = document.createElement('p');
-            hint.textContent = "(Sign in to Google to view)";
+            // Explain that it opens in full screen
+            hint.textContent = "(Opens media in new tab)";
             hint.style.fontSize = "0.8rem";
             hint.style.color = "#aaa";
             hint.style.marginTop = "6px";
