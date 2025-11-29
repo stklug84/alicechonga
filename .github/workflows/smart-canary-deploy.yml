@@ -107,7 +107,7 @@ jobs:
         working-directory: ./canary-source
         run: |
           # Clean old canary folder from _site if it exists (from cache)
-          rm -rf ../_site/canar
+          rm -rf ../_site/canary
 
           # Build into _site/canary
           bundle exec jekyll build --destination ../_site/canary --baseurl "/canary"
