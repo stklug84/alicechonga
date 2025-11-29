@@ -1,194 +1,194 @@
 {
-  "01": {
-    "title": "A Warm Welcome",
-    "text": "Our advent adventure starts now! Ready for a surprise?",
-    "file": "",
-    "link": "https://drive.google.com/file/d/1I_Q7FG6eOVVof4ng_1Ddh-D0LQeX1MPF/view?usp=sharing",
-    "badge": "New!",
-    "password": "day1"
-  },
-  "02": {
-    "title": "A Little Treat",
-    "text": "A small token to brighten your day.",
-    "file": "",
-    "link": "https://drive.google.com/file/d/16dWCwhuW7C9J-2dtnJjQrfmMNLf2wE-2/view?usp=drive_link",
-    "badge": "",
-    "password": "day2"
-  },
-  "03": {
-    "title": "Cozy Corner",
-    "text": "Get cozy and check out this festive link.",
-    "file": "",
-    "link": "https://www.example.com/gift/03",
-    "badge": "",
-    "password": "day3"
-  },
-  "04": {
-    "title": "Weekend Adventure",
-    "text": "Remember this day? Here's the picture!",
-    "file": "assets/gift_04.png",
-    "link": "",
-    "badge": "",
-    "password": "day4"
-  },
-  "05": {
-    "title": "Photo Memory",
-    "text": "Listen to this to get into the holiday spirit.",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day5"
-  },
-  "06": {
-    "title": "Music for the Day",
-    "text": "Solve this simple riddle to unlock today's gift.",
-    "file": "",
-    "link": "",
-    "badge": "New!",
-    "password": "day6"
-  },
-  "07": {
-    "title": "Secret Link",
-    "text": "A simple message of appreciation.",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day7"
-  },
-  "08": {
-    "title": "Puzzle Time",
-    "text": "A picture of something warm and bright.",
-    "file": "assets/gift_08.png",
-    "link": "",
-    "badge": "",
-    "password": "day8"
-  },
-  "09": {
-    "title": "Winter Scene",
-    "text": "Try making this at home!",
-    "file": "",
-    "link": "https://www.example.com/gift/09",
-    "badge": "",
-    "password": "day9"
-  },
-  "10": {
-    "title": "Hot Chocolate Recipe",
-    "text": "Hope you enjoy this little virtual present.",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day10"
-  },
-  "11": {
-    "title": "A Special Note",
-    "text": "Open this file for a smile!",
-    "file": "",
-    "link": "",
-    "badge": "New!",
-    "password": "day11"
-  },
-  "12": {
-    "title": "Digital Gift",
-    "text": "Wishing you a day filled with joy.",
-    "file": "assets/gift_12.png",
-    "link": "",
-    "badge": "",
-    "password": "day12"
-  },
-  "13": {
-    "title": "New Wallpaper",
-    "text": "Our advent adventure starts now! Ready for a surprise?",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day13"
-  },
-  "14": {
-    "title": "Funny Video",
-    "text": "A small token to brighten your day.",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day14"
-  },
-  "15": {
-    "title": "A Song Just For You",
-    "text": "Get cozy and check out this festive link.",
-    "file": "",
-    "link": "https://www.example.com/gift/15",
-    "badge": "",
-    "password": "day15"
-  },
-  "16": {
-    "title": "Holiday Joke",
-    "text": "Remember this day? Here's the picture!",
-    "file": "assets/gift_16.png",
-    "link": "",
-    "badge": "New!",
-    "password": "day16"
-  },
-  "17": {
-    "title": "Movie Night Idea",
-    "text": "Listen to this to get into the holiday spirit.",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day17"
-  },
-  "18": {
-    "title": "A Festive GIF",
-    "text": "Solve this simple riddle to unlock today's gift.",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day18"
-  },
-  "19": {
-    "title": "Small Surprise",
-    "text": "A simple message of appreciation.",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day19"
-  },
-  "20": {
-    "title": "Favorite Memory",
-    "text": "A picture of something warm and bright.",
-    "file": "assets/gift_20.png",
-    "link": "",
-    "badge": "",
-    "password": "day20"
-  },
-  "21": {
-    "title": "Future Plans",
-    "text": "Try making this at home!",
-    "file": "",
-    "link": "https://www.example.com/gift/21",
-    "badge": "New!",
-    "password": "day21"
-  },
-  "22": {
-    "title": "Sweet Thought",
-    "text": "Hope you enjoy this little virtual present.",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day22"
-  },
-  "23": {
-    "title": "Counting Down",
-    "text": "Open this file for a smile!",
-    "file": "",
-    "link": "",
-    "badge": "",
-    "password": "day23"
-  },
-  "24": {
-    "title": "Christmas Eve Grand Finale",
-    "text": "Wishing you a day filled with joy.",
-    "file": "assets/gift_24.png",
-    "link": "",
-    "badge": "",
-    "password": "day24"
-  }
+    "01": {
+	"title": "A Warm Welcome",
+	"text": "Our advent adventure starts now! Ready for a surprise?",
+	"file": "",
+	"link": "https://alicechonga.com",
+	"badge": "New!",
+	"password": ""
+    },
+    "02": {
+	"title": "A Little Treat",
+	"text": "A small token to brighten your day.",
+	"file": "",
+	"link": "https://drive.google.com/file/d/1-CZC-YqR5Pq34L0lFzL1XHXyx_1Yn8EJ/view?usp=drive_link",
+	"badge": "",
+	"password": ""
+    },
+    "03": {
+	"title": "Cozy Corner",
+	"text": "Get cozy and check out this festive link.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "04": {
+	"title": "Weekend Adventure",
+	"text": "Remember this day? Here's the picture!",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "05": {
+	"title": "Photo Memory",
+	"text": "Listen to this to get into the holiday spirit.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "06": {
+	"title": "Music for the Day",
+	"text": "Solve this simple riddle to unlock today's gift.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "07": {
+	"title": "Secret Link",
+	"text": "A simple message of appreciation.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "08": {
+	"title": "Puzzle Time",
+	"text": "A picture of something warm and bright.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "09": {
+	"title": "Winter Scene",
+	"text": "Try making this at home!",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "10": {
+	"title": "Hot Chocolate Recipe",
+	"text": "Hope you enjoy this little virtual present.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "11": {
+	"title": "A Special Note",
+	"text": "Open this file for a smile!",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "12": {
+	"title": "Digital Gift",
+	"text": "Wishing you a day filled with joy.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "13": {
+	"title": "New Wallpaper",
+	"text": "Our advent adventure starts now! Ready for a surprise?",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "14": {
+	"title": "Funny Video",
+	"text": "A small token to brighten your day.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "15": {
+	"title": "A Song Just For You",
+	"text": "Get cozy and check out this festive link.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "16": {
+	"title": "Holiday Joke",
+	"text": "Remember this day? Here's the picture!",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "17": {
+	"title": "Movie Night Idea",
+	"text": "Listen to this to get into the holiday spirit.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "18": {
+	"title": "A Festive GIF",
+	"text": "Solve this simple riddle to unlock today's gift.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "19": {
+	"title": "Small Surprise",
+	"text": "A simple message of appreciation.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "20": {
+	"title": "Favorite Memory",
+	"text": "A picture of something warm and bright.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "21": {
+	"title": "Future Plans",
+	"text": "Try making this at home!",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "22": {
+	"title": "Sweet Thought",
+	"text": "",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "23": {
+	"title": "Counting Down",
+	"text": "Open this file for a smile!",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    },
+    "24": {
+	"title": "Christmas Eve Grand Finale",
+	"text": "Wishing you a day filled with joy.",
+	"file": "",
+	"link": "",
+	"badge": "",
+	"password": ""
+    }
 }
