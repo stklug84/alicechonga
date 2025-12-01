@@ -37,12 +37,12 @@ jobs:
               - 'Gemfile'
               - 'Gemfile.lock'
               - '_config.yml'
+              - 'advent/**'
               - '*.html'
               - '*.js'
               - '*.css'
               - '_layouts/**'
               - '_includes/**'
-              - 'days/**'
 
       # --- 3. RESTORE CACHE ---
       # Try to get the _site folder from the last successful MAIN run
@@ -82,9 +82,11 @@ jobs:
         if: steps.cache-site.outputs.cache-hit == 'true' && (github.ref != 'refs/heads/main' || steps.changes.outputs.core == 'false')
         run: |
           echo "⚡ Skipping Main Build. Updating data files only."
-          mkdir -p _site/data
-          # Copy JSON from the freshly checked out main-source to the cached _site
-          cp main-source/data/days.json _site/data/days.json
+          # Create the nested directory structure
+          mkdir -p _site/advent/data
+
+          # Copy advent data jsons
+          cp main-source/advent/data/days.json _site/advent/data/days.json
 
       # --- 6. BUILD CANARY (SUBDIRECTORY) ---
       - name: Checkout Canary Branch
