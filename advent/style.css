@@ -3,7 +3,9 @@
     --card:#c62828;
     --muted:#9aa7bd;
     --accent:#ffd54f;
-    --card-locked:#6b6b6b;
+    --card-locked:#c62828;
+    /*--card-locked:#6b6b6b;*/
+
 }
 *{box-sizing:border-box}
 body{
