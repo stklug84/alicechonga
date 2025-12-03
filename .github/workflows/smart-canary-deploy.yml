@@ -2,7 +2,7 @@ name: Smart Canary Deploy
 
 on:
   push:
-    branches: ["main", "canary"]
+    branches: ["main", "develop"]
   workflow_dispatch:
 
 permissions:
@@ -89,10 +89,10 @@ jobs:
           cp main-source/advent/data/days.json _site/advent/data/days.json
 
       # --- 6. BUILD CANARY (SUBDIRECTORY) ---
-      - name: Checkout Canary Branch
+      - name: Checkout Development Branch (Canary)
         uses: actions/checkout@v4
         with:
-          ref: canary
+          ref: develop
           path: canary-source
           clean: false
         continue-on-error: true
