@@ -180,15 +180,15 @@
 	"text": "Open this file for a smile!",
 	"file": "",
 	"link": "https://drive.google.com/file/d/1XOX5-pOyyoZ1jAi07GbcpxDL-LE3rCJ0/view?usp=drive_link",
-	"badge": "New!",
+	"badge": "",
 	"password": ""
     },
     "24": {
 	"title": "Christmas Eve Grand Finale",
-	"text": "Wishing you a day filled with joy.",
+	"text": "Wishing you a day filled with joy... And my favorite Christmas album",
 	"file": "",
-	"link": "",
-	"badge": "",
+	"link": "https://youtu.be/wpGduoDJaIE?si=i3UhQp9VmHk9hcQF",
+	"badge": "Merry Christmas!",
 	"password": ""
     }
 }
