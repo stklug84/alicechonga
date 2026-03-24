@@ -37,7 +37,6 @@ jobs:
               - 'Gemfile'
               - 'Gemfile.lock'
               - '_config.yml'
-              - 'advent/**'
               - '*.html'
               - '*.js'
               - '*.css'
@@ -59,7 +58,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: "3.3"
           bundler-cache: true
           working-directory: main-source
 
@@ -75,20 +74,7 @@ jobs:
         working-directory: ./main-source
         run: bundle exec jekyll build --destination ../_site
 
-      # --- 5. FAST UPDATE (No Build) ---
-      # Logic: If we skipped the build above, we must copy the new JSON to the cached site.
-      - name: Update Data in Cached Site
-        # If we have a cache hit AND (we are not on main OR core didn't change)
-        if: steps.cache-site.outputs.cache-hit == 'true' && (github.ref != 'refs/heads/main' || steps.changes.outputs.core == 'false')
-        run: |
-          echo "⚡ Skipping Main Build. Updating data files only."
-          # Create the nested directory structure
-          mkdir -p _site/advent/data
-
-          # Copy advent data jsons
-          cp main-source/advent/data/days.json _site/advent/data/days.json
-
-      # --- 6. BUILD CANARY (SUBDIRECTORY) ---
+      # --- 5. BUILD CANARY (SUBDIRECTORY) ---
       - name: Checkout Development Branch (Canary)
         uses: actions/checkout@v4
         with:
@@ -121,7 +107,7 @@ jobs:
           # For Custom Domain (CNAME): baseurl is just the subdirectory "/canary"
           bundle exec jekyll build --destination ../_site/canary --baseurl "/canary"
 
-      # --- 7. UPLOAD ---
+      # --- 6. UPLOAD ---
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
