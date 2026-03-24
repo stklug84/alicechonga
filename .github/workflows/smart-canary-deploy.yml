@@ -20,14 +20,14 @@ jobs:
     steps:
       # --- 1. SETUP & CHECKOUT MAIN ---
       - name: Checkout Main (Production)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
           path: main-source
 
       # --- 2. DETECT CHANGES (Only matters if we pushed to Main) ---
       - name: Check for core changes in Main
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         id: changes
         with:
           # We must point the filter to the main-source directory
@@ -47,7 +47,7 @@ jobs:
       # Try to get the _site folder from the last successful MAIN run
       - name: Restore _site cache
         id: cache-site
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: _site
           # Key is specific to the Main branch commit or fallback to latest available
@@ -76,7 +76,7 @@ jobs:
 
       # --- 5. BUILD CANARY (SUBDIRECTORY) ---
       - name: Checkout Development Branch (Canary)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: develop
           path: canary-source
@@ -109,7 +109,7 @@ jobs:
 
       # --- 6. UPLOAD ---
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./_site
 
