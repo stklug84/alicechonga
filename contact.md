@@ -24,7 +24,8 @@ permalink: /contact/
   </div>
   <div class="contact-form">
     <h3>Send a Message</h3>
-    <form action="https://formspree.io/chongaalice0@gmail.com" method="POST">
+    <!-- Create a form at https://formspree.io/register and replace the ID below -->
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
       <input type="hidden" name="_subject" value="New message from alicechonga.com">
       <label for="name">Name</label>
       <input type="text" id="name" name="name" required>
