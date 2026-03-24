@@ -7,7 +7,7 @@ permalink: /resources/
 
 <div class="page-header">
   <h1>Insights & Tools</h1>
-  <p class="subtitle">Free resources to help you build better HR systems.</p>
+  <p class="subtitle">Articles and ideas to help you build better HR systems.</p>
 </div>
 
 <div class="content">
@@ -15,13 +15,4 @@ permalink: /resources/
   <p>Explore articles on global HR trends, ethical workplace strategies, and
   insights on building people-first organizations.</p>
   <p><a href="/blog/" class="btn btn-primary">Read the Blog</a></p>
-
-  <hr>
-
-  <h3>Free Downloads</h3>
-  <p>Get started with these practical tools designed for small organizations and startups.</p>
-  <ul class="downloads-list">
-    <li><a href="#">Startup HR Starter Pack (PDF)</a></li>
-    <li><a href="#">Sample Policy Templates (.zip)</a></li>
-  </ul>
 </div>

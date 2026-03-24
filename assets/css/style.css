@@ -711,6 +711,25 @@ hr {
     transform: translateY(-2px);
 }
 
+/* --- Skip to Content (Accessibility) --- */
+.skip-to-content {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 999;
+    padding: 8px 16px;
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 0 0 6px 0;
+    text-decoration: none;
+}
+.skip-to-content:focus {
+    left: 0;
+    outline: 3px solid var(--accent-color);
+}
+
 /* --- Utility --- */
 .text-center { text-align: center; }
 .mt-2 { margin-top: 2rem; }

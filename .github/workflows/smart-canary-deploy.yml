@@ -41,10 +41,13 @@ jobs:
               - 'Gemfile.lock'
               - '_config.yml'
               - '*.html'
+              - '*.md'
               - '*.js'
               - '*.css'
               - '_layouts/**'
               - '_includes/**'
+              - '_posts/**'
+              - 'assets/**'
 
       # --- 3. RESTORE CACHE ---
       # Try to get the _site folder from the last successful MAIN run
