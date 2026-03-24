@@ -8,8 +8,6 @@ description: |
 author: "Alice Chonga"
 url: "https://alicechonga.com"
 
-# Navigation - Used for the header menu
-# The order here determines the order in the navigation bar
 navigation:
   - title: Home
     url: /
@@ -17,6 +15,8 @@ navigation:
     url: /about/
   - title: Services
     url: /services/
+  - title: Blog
+    url: /blog/
   - title: Speaking
     url: /speaking/
   - title: Resources
@@ -24,15 +24,16 @@ navigation:
   - title: Contact
     url: /contact/
 
+# Blog / posts
+permalink: /blog/:year/:month/:day/:title/
+paginate: 10
+
 # Build settings
 markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
 
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically excluded.
 exclude:
   - .sass-cache/
   - .jekyll-cache/

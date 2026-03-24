@@ -1,0 +1,461 @@
+---
+permalink: /admin/
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #006B3F;
+      --primary-dark: #004D2C;
+      --accent: #D4A843;
+      --red: #BA0C2F;
+      --bg: #FFF8F0;
+      --card: #fff;
+      --border: #E8DDD0;
+      --text: #2D2D2D;
+      --text-light: #5A5A5A;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Lato', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .kenya-stripe {
+      height: 6px;
+      background: linear-gradient(to right,
+        #000 0%, #000 30%, #BA0C2F 30%, #BA0C2F 40%,
+        #FFF 40%, #FFF 50%, #BA0C2F 50%, #BA0C2F 60%,
+        #FFF 60%, #FFF 70%, #006B3F 70%, #006B3F 100%);
+    }
+
+    /* Login */
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 6px);
+    }
+    .login-box {
+      background: var(--card);
+      padding: 3rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+    .login-box h1 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--primary);
+      font-size: 1.5rem;
+      margin: 0 0 0.5rem;
+    }
+    .login-box p {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      background: var(--bg);
+      font-family: inherit;
+    }
+    .login-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0,107,63,0.1);
+    }
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .login-box button:hover { background: #9A0A27; }
+    .login-error {
+      color: var(--red);
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      min-height: 1.4em;
+    }
+
+    /* Admin Panel */
+    .admin-panel { display: none; }
+    .admin-panel.visible { display: block; }
+    .admin-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #fff;
+      padding: 1rem 0;
+    }
+    .admin-header .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .admin-header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    .admin-header .logout-btn {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .admin-header .logout-btn:hover { background: rgba(255,255,255,0.25); }
+
+    .composer {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 20px;
+    }
+    .composer h2 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 1rem;
+      background: var(--card);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0,107,63,0.1);
+    }
+    .form-group textarea {
+      min-height: 300px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+    .form-hint {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-top: 0.25rem;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-compose {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .btn-compose:hover { transform: translateY(-1px); }
+    .btn-download {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-download:hover { background: var(--primary-dark); }
+    .btn-preview {
+      background: var(--accent);
+      color: var(--text);
+    }
+    .btn-preview:hover { background: #C49A3A; }
+    .btn-clear {
+      background: transparent;
+      color: var(--text-light);
+      border: 1px solid var(--border);
+    }
+
+    .preview-area {
+      display: none;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      margin-top: 1.5rem;
+    }
+    .preview-area.visible { display: block; }
+    .preview-area h3 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--primary);
+      margin-top: 0;
+    }
+    .preview-raw {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="kenya-stripe"></div>
+
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <h1>Alice Chonga</h1>
+      <p>Blog Administration</p>
+      <form id="loginForm">
+        <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password" autofocus>
+        <button type="submit">Sign In</button>
+        <div class="login-error" id="loginError"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-header">
+      <div class="wrap">
+        <h1>Blog Composer</h1>
+        <button class="logout-btn" id="logoutBtn">Sign Out</button>
+      </div>
+    </div>
+
+    <div class="composer">
+      <h2>New Blog Post</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="postTitle">Title</label>
+          <input type="text" id="postTitle" placeholder="e.g. Building HR Systems Across Borders">
+        </div>
+        <div class="form-group">
+          <label for="postTags">Tags</label>
+          <input type="text" id="postTags" placeholder="e.g. HR, Global Mobility, Africa">
+          <div class="form-hint">Comma-separated</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="postDate">Date</label>
+          <input type="date" id="postDate">
+        </div>
+        <div class="form-group">
+          <label for="postReadTime">Reading Time (minutes)</label>
+          <input type="number" id="postReadTime" min="1" max="60" value="5">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="postBody">Content (Markdown)</label>
+        <textarea id="postBody" placeholder="Write your blog post content in Markdown...
+
+## Section Heading
+
+Your paragraph text here.
+
+- Bullet point one
+- Bullet point two
+
+> A meaningful quote
+
+**Bold text** and *italic text* work as expected."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-compose btn-download" id="downloadBtn">Download .md File</button>
+        <button class="btn-compose btn-preview" id="previewBtn">Preview Front Matter</button>
+        <button class="btn-compose btn-clear" id="clearBtn">Clear</button>
+      </div>
+
+      <div class="preview-area" id="previewArea">
+        <h3>Generated File Preview</h3>
+        <div class="preview-raw" id="previewRaw"></div>
+        <div class="form-hint" style="margin-top: 0.75rem;">
+          Save this file to <code>_posts/</code> in your repository, then push to deploy.
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg); border-radius: 8px; border: 1px solid var(--border);">
+        <h3 style="margin-top: 0; color: var(--primary); font-family: 'Montserrat', sans-serif; font-size: 1rem;">How to Publish</h3>
+        <ol style="color: var(--text-light); line-height: 2; padding-left: 1.25rem;">
+          <li>Fill in the form above and click <strong>Download .md File</strong>.</li>
+          <li>Place the downloaded file in the <code>_posts/</code> folder of your repository.</li>
+          <li>Commit and push to the <code>main</code> branch.</li>
+          <li>GitHub Pages will automatically rebuild and publish your post.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var PASS_HASH = 'd4dd2669b1185293d746d8454d6206fc77fa80c8ae3bfb4f43e5a40a68a8c9bc';
+    var SESSION_KEY = 'ac-admin-session';
+
+    async function sha256(str) {
+      var buf = await crypto.subtle.digest('SHA-256',
+        new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf))
+        .map(function(b) { return b.toString(16).padStart(2, '0'); })
+        .join('');
+    }
+
+    function showAdmin() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminPanel').classList.add('visible');
+      sessionStorage.setItem(SESSION_KEY, '1');
+    }
+
+    function showLogin() {
+      document.getElementById('adminPanel').classList.remove('visible');
+      document.getElementById('loginScreen').style.display = 'flex';
+      sessionStorage.removeItem(SESSION_KEY);
+    }
+
+    if (sessionStorage.getItem(SESSION_KEY) === '1') {
+      showAdmin();
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var pw = document.getElementById('loginPassword').value;
+      var hash = await sha256(pw);
+      if (hash === PASS_HASH) {
+        showAdmin();
+      } else {
+        document.getElementById('loginError').textContent = 'Incorrect password.';
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('loginPassword').focus();
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', showLogin);
+
+    function slugify(text) {
+      return text.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+    }
+
+    function buildMarkdown() {
+      var title = document.getElementById('postTitle').value.trim();
+      var tags = document.getElementById('postTags').value.trim();
+      var date = document.getElementById('postDate').value;
+      var readTime = document.getElementById('postReadTime').value;
+      var body = document.getElementById('postBody').value;
+
+      if (!title) { alert('Please enter a title.'); return null; }
+      if (!date) { alert('Please select a date.'); return null; }
+
+      var tagList = tags
+        ? tags.split(',').map(function(t) { return t.trim(); }).filter(Boolean)
+        : [];
+
+      var front = '---\n';
+      front += 'layout: post\n';
+      front += 'title: "' + title.replace(/"/g, '\\"') + '"\n';
+      front += 'date: ' + date + '\n';
+      front += 'author: "Alice Chonga"\n';
+      if (tagList.length) {
+        front += 'tags: [' + tagList.join(', ') + ']\n';
+      }
+      if (readTime) {
+        front += 'reading_time: ' + readTime + '\n';
+      }
+      front += '---\n\n';
+
+      var filename = date + '-' + slugify(title) + '.md';
+
+      return { content: front + body, filename: filename };
+    }
+
+    document.getElementById('previewBtn').addEventListener('click', function() {
+      var result = buildMarkdown();
+      if (!result) return;
+      var area = document.getElementById('previewArea');
+      document.getElementById('previewRaw').textContent = result.content;
+      area.classList.add('visible');
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      var result = buildMarkdown();
+      if (!result) return;
+      var blob = new Blob([result.content], { type: 'text/markdown' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = result.filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', function() {
+      if (!confirm('Clear all fields?')) return;
+      document.getElementById('postTitle').value = '';
+      document.getElementById('postTags').value = '';
+      document.getElementById('postBody').value = '';
+      document.getElementById('postReadTime').value = '5';
+      document.getElementById('previewArea').classList.remove('visible');
+    });
+
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('postDate').value = today;
+  })();
+  </script>
+</body>
+</html>

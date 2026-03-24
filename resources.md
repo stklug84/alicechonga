@@ -13,8 +13,8 @@ permalink: /resources/
 <div class="content">
   <h3>Blog: "The Future of Work is Human"</h3>
   <p>Explore articles on global HR trends, ethical workplace strategies, and
-  insights on building people-first organizations. <em>(Blog section coming
-  soon!)</em></p>
+  insights on building people-first organizations.</p>
+  <p><a href="/blog/" class="btn btn-primary">Read the Blog</a></p>
 
   <hr>
 

@@ -1,6 +1,9 @@
 <header class="site-header">
   <div class="wrapper">
     <a class="site-title" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
+    <button class="menu-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
     <nav class="site-nav">
       <ul>
         {% for item in site.navigation %}
